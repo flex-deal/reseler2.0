@@ -104,7 +104,7 @@
         <section id="products" class="py-20">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-white mb-12">Featured Products</h2>
-                <div id="featured-product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div id="featured-product-list" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-8">
                     <!-- Featured products will be dynamically inserted here -->
                 </div>
             </div>
@@ -406,13 +406,26 @@
             productList.innerHTML = '';
             featuredProductList.innerHTML = '';
             noResultsMessage.classList.toggle('hidden', productsToRender.length > 0);
-            productsToRender.forEach(product => {
+            
+            const allProductsToRender = products.filter(p => productsToRender.includes(p));
+            
+            allProductsToRender.forEach(product => {
                 const priceDisplay = product.varieties[0].price;
-                const productCardHTML = `<div class="all-product-card bg-slate-800/50 rounded-lg shadow-md overflow-hidden product-card transition duration-300 border border-slate-700" data-id="${product.id}"><img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover"><div class="p-6"><h3 class="product-title text-xl font-bold text-white truncate">${product.name}</h3><p class="text-slate-400 mt-2 mb-4 text-sm h-10">${product.shortDescription}</p><div class="text-2xl font-bold text-white">${priceDisplay}</div><button class="view-details-btn mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-500 transition">View Details</button></div></div>`;
+                const productCardHTML = `
+                    <div class="all-product-card bg-slate-800/50 rounded-lg shadow-md overflow-hidden product-card transition duration-300 border border-slate-700" data-id="${product.id}">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="p-4 md:p-6">
+                            <h3 class="product-title text-base md:text-xl font-bold text-white truncate">${product.name}</h3>
+                            <p class="text-slate-400 mt-2 mb-4 text-xs md:text-sm h-10">${product.shortDescription}</p>
+                            <div class="text-lg md:text-2xl font-bold text-white">${priceDisplay}</div>
+                            <button class="view-details-btn mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-500 transition text-sm md:text-base">View Details</button>
+                        </div>
+                    </div>`;
+                
                 productList.insertAdjacentHTML('beforeend', productCardHTML);
+
                 if (product.isFeatured) {
-                    const featuredCardHTML = `<div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden product-card border border-slate-700" data-id="${product.id}"><div class="p-8"><div class="flex items-center mb-4"><img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-full mr-4 border-2 border-slate-700 object-cover"><h3 class="text-2xl font-bold text-white">${product.name}</h3></div><p class="text-slate-400 mb-6">${product.shortDescription}</p><div class="text-3xl font-bold text-white mb-6">${priceDisplay}</div><button class="view-details-btn w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-500 transition">Buy Now</button></div></div>`;
-                    featuredProductList.insertAdjacentHTML('beforeend', featuredCardHTML);
+                    featuredProductList.insertAdjacentHTML('beforeend', productCardHTML);
                 }
             });
         }
@@ -561,10 +574,6 @@
                 authMessage.textContent = "Error: " + error.message.replace('Firebase: ', '');
             }
         });
-
-    </script>
-</body>
-</html>
 
     </script>
 </body>
