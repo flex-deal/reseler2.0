@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftSell - Your Digital Products Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-gradient-text {
+            background: linear-gradient(to right, #a5b4fc, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+        .filter-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 600;
+        }
+        .modal-overlay, .auth-modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-container, .auth-modal-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        /* Hide scrollbar for auth modal */
+        #auth-modal-container::-webkit-scrollbar {
+            display: none;
+        }
+        #auth-modal-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Navigation Bar -->
+    <header class="bg-slate-900/70 backdrop-blur-lg shadow-lg shadow-slate-900/50 sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                <span class="text-indigo-400">Soft</span>Sell
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#home" class="text-slate-300 hover:text-indigo-400 transition duration-300">Home</a>
+                <a href="#products" class="text-slate-300 hover:text-indigo-400 transition duration-300">Featured</a>
+                <a href="#all-products" class="text-slate-300 hover:text-indigo-400 transition duration-300">All Products</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <!-- Auth Buttons -->
+                <div id="auth-container" class="flex items-center gap-4">
+                    <!-- This will be replaced by user profile or login button -->
+                </div>
+                 <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-slate-300 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 border-t border-slate-800">
+            <!-- Mobile nav links will be injected here -->
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative py-24 md:py-40 overflow-hidden">
+             <div class="absolute inset-0 bg-slate-900 z-10"></div>
+             <div class="absolute inset-x-0 top-0 h-[500px] bg-gradient-to-br from-indigo-900/30 to-slate-900 z-0"></div>
+             <div class="container mx-auto px-6 text-center relative z-20">
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight">
+                    Instant Access to <span class="hero-gradient-text">Digital Products</span>
+                </h1>
+                <p class="mt-6 text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
+                    Your one-stop shop for premium software, games, and subscriptions. Get the digital keys you need to succeed, with unbeatable prices and 24/7 support.
+                </p>
+                <div class="mt-10">
+                    <a href="#all-products" class="bg-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-indigo-500 transition duration-300 shadow-lg shadow-indigo-600/40">
+                        Explore Our Catalog
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section id="products" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-white mb-12">Featured Products</h2>
+                <div id="featured-product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Featured products will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- All Products Section -->
+        <section id="all-products" class="py-20 bg-slate-900/50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-white mb-4">Our Full Digital Catalog</h2>
+                <p class="text-center text-slate-400 mb-12 max-w-2xl mx-auto">Use the filters and search bar to find the exact product you need from our extensive collection.</p>
+
+                <!-- Search and Filter Controls -->
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+                    <div class="relative w-full md:w-1/3">
+                        <input type="text" id="search-input" placeholder="Search for products..." class="w-full px-4 py-3 rounded-lg bg-slate-800 border-2 border-slate-700 focus:outline-none focus:border-indigo-500 transition duration-300 text-white placeholder-slate-500">
+                         <svg class="w-5 h-5 text-slate-500 absolute top-1/2 right-4 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <div id="category-filters" class="flex flex-wrap justify-center gap-2">
+                        <button class="filter-btn active px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="all">All</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="os">OS</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="productivity">Productivity</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="security">Security</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="design">Design</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="games">Games</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="subscriptions">Subscriptions</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300" data-category="utilities">Utilities</button>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- All products will be dynamically inserted here -->
+                </div>
+                 <div id="no-results" class="hidden text-center text-slate-500 mt-16">
+                    <h3 class="text-2xl font-semibold text-white">No products found</h3>
+                    <p>Try adjusting your search or filter criteria.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Why Choose Us and Footer remain the same -->
+    </main>
+
+    <!-- MODALS -->
+
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden">
+        <div id="modal-overlay" class="absolute inset-0 bg-black/70 modal-overlay"></div>
+        <div id="modal-container" class="relative bg-slate-800 rounded-xl w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto m-4 modal-container opacity-0 scale-95">
+            <button id="modal-close-button" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+                <img id="modal-product-image" src="https://placehold.co/600x400/1e293b/4f46e5?text=Product" alt="Product Image" class="rounded-lg w-full h-auto object-cover">
+                <div>
+                    <h2 id="modal-product-title" class="text-3xl font-bold text-white mb-2">Product Title</h2>
+                    <p id="modal-product-description" class="text-slate-400 mb-6">Detailed product description goes here.</p>
+                    <h3 class="text-xl font-semibold text-white mb-3">Purchase Options:</h3>
+                    <div id="modal-product-varieties" class="space-y-3 mb-6">
+                        <!-- Varieties and purchase options will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden">
+        <div id="auth-modal-overlay" class="absolute inset-0 bg-black/70 auth-modal-overlay"></div>
+        <div id="auth-modal-container" class="relative bg-slate-800 rounded-xl w-11/12 max-w-md m-4 auth-modal-container opacity-0 scale-95">
+            <button id="auth-modal-close-button" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="p-8">
+                <!-- Login Form -->
+                <div id="login-form-container">
+                    <h2 class="text-2xl font-bold text-white text-center mb-6">Login to Your Account</h2>
+                    <form id="login-form" class="space-y-4">
+                        <input type="email" id="login-email" placeholder="Email Address" required class="w-full px-4 py-3 rounded-lg bg-slate-700 border-2 border-slate-600 focus:outline-none focus:border-indigo-500 text-white">
+                        <input type="password" id="login-password" placeholder="Password" required class="w-full px-4 py-3 rounded-lg bg-slate-700 border-2 border-slate-600 focus:outline-none focus:border-indigo-500 text-white">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-500 transition">Login</button>
+                    </form>
+                    <p class="text-center text-slate-400 mt-4">
+                        Don't have an account? <button id="show-signup-button" class="font-semibold text-indigo-400 hover:text-indigo-300">Sign Up</button>
+                    </p>
+                </div>
+                <!-- Signup Form -->
+                <div id="signup-form-container" class="hidden">
+                     <h2 class="text-2xl font-bold text-white text-center mb-6">Create an Account</h2>
+                    <form id="signup-form" class="space-y-4">
+                        <input type="email" id="signup-email" placeholder="Email Address" required class="w-full px-4 py-3 rounded-lg bg-slate-700 border-2 border-slate-600 focus:outline-none focus:border-indigo-500 text-white">
+                        <input type="password" id="signup-password" placeholder="Password" required class="w-full px-4 py-3 rounded-lg bg-slate-700 border-2 border-slate-600 focus:outline-none focus:border-indigo-500 text-white">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-500 transition">Create Account</button>
+                    </form>
+                    <p class="text-center text-slate-400 mt-4">
+                        Already have an account? <button id="show-login-button" class="font-semibold text-indigo-400 hover:text-indigo-300">Login</button>
+                    </p>
+                </div>
+                 <div id="auth-message" class="text-center text-amber-400 mt-4 font-semibold"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg opacity-0 translate-y-10 transition-all duration-300">
+        <p id="toast-message">Success!</p>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-800/50 border-t border-slate-800">
+        <div class="container mx-auto px-6 py-10">
+            <div class="text-center">
+                <a href="#" class="text-2xl font-bold text-white">
+                    <span class="text-indigo-400">Soft</span>Sell
+                </a>
+                <p class="mt-4 max-w-md mx-auto text-slate-400">
+                    Your trusted partner for digital products.
+                </p>
+                <div class="mt-6 flex justify-center space-x-6">
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition duration-300">Facebook</a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition duration-300">Twitter</a>
+                    <a href="#" class="text-slate-400 hover:text-indigo-400 transition duration-300">LinkedIn</a>
+                </div>
+            </div>
+            <hr class="my-8 border-slate-700" />
+            <div class="text-center text-slate-500">
+                <p>&copy; 2024 SoftSell. All Rights Reserved. | Powered by <span class="font-semibold text-indigo-400">FlexDeal</span></p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // IMPORTANT: Replace with your actual Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Import Firebase services
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+    </script>
+    
+    <!-- All other JavaScript functionality -->
+    <script type="module">
+        // We need to re-import here because script tags have separate scopes
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+        // IMPORTANT: Replace with your actual Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- GLOBAL STATE ---
+        let currentUser = null; // Will hold { uid, email, isApproved, isAdmin }
+
+        // --- DATA ---
+        const products = [
+             { id: 1, name: "Pro Operating System", category: "os", isFeatured: true, image: "https://placehold.co/500x500/1e293b/4338ca?text=OS+Pro", shortDescription: "For professionals and power users.", longDescription: "The latest and most secure operating system designed for peak performance. Includes advanced security features, a streamlined user interface, and powerful multitasking capabilities.", varieties: [{ name: "Standard", price: "₹14,999", paymentLink: "#" }, { name: "Enterprise", price: "₹22,499", paymentLink: "#" }] },
+             { id: 8, name: "Galaxy Warriors", category: "games", isFeatured: true, image: "https://placehold.co/500x500/1e293b/059669?text=Galaxy+Warriors", shortDescription: "Epic space combat adventure.", longDescription: "Pilot advanced starfighters in breathtaking dogfights across the galaxy. Upgrade your ship, customize your loadout, and join epic multiplayer battles.", varieties: [{ name: "Base Game", price: "₹4,499", paymentLink: "#" }, { name: "Fleet Commander Edition", price: "₹5,999", paymentLink: "#" }] },
+             { id: 9, name: "StreamFlix Premium", category: "subscriptions", isFeatured: true, image: "https://placehold.co/500x500/1e293b/7e22ce?text=StreamFlix", shortDescription: "World's leading streaming service.", longDescription: "Get a 12-month subscription to the world's leading streaming service for movies, TV shows, and original content. Watch anywhere, anytime.", varieties: [{ name: "1 Year Subscription", price: "₹9,999/yr", paymentLink: "#" }] },
+             { id: 2, name: "Office Suite 2025", category: "productivity", isFeatured: false, image: "https://placehold.co/500x500/1e293b/f97316?text=Office+Suite", shortDescription: "Word processing, spreadsheets, etc.", longDescription: "The essential suite for modern productivity. Create professional documents, analyze data with powerful spreadsheets, and deliver stunning presentations with ease.", varieties: [{ name: "Home & Student", price: "₹11,299", paymentLink: "#" }, { name: "Professional", price: "₹18,799", paymentLink: "#" }] },
+             { id: 3, name: "Total Security Antivirus", category: "security", isFeatured: false, image: "https://placehold.co/500x500/1e293b/be123c?text=Antivirus", shortDescription: "Comprehensive malware protection.", longDescription: "Protect your digital life with our top-rated antivirus. Features real-time threat detection, ransomware protection, a secure VPN, and password manager.", varieties: [{ name: "1 Device / 1 Year", price: "₹999/yr", paymentLink: "#" }, { name: "5 Devices / 1 Year", price: "₹1,499/yr", paymentLink: "#" }] },
+             { id: 4, name: "Photo Editor Pro", category: "design", isFeatured: false, image: "https://placehold.co/500x500/1e293b/0891b2?text=Photo+Editor", shortDescription: "Advanced photo editing tools.", longDescription: "Unleash your creativity with professional-grade photo editing. Features AI-powered tools, layer-based editing, and a huge library of filters and effects.", varieties: [{ name: "Perpetual License", price: "₹7,499", paymentLink: "#" }, { name: "Annual Subscription", price: "₹3,799/yr", paymentLink: "#" }] },
+             { id: 5, name: "Kingdoms of Ethera", category: "games", isFeatured: false, image: "https://placehold.co/500x500/1e293b/ca8a04?text=Ethera", shortDescription: "A vast open-world RPG adventure.", longDescription: "Forge your legend in the sprawling world of Ethera. Battle mythical beasts, uncover ancient secrets, and shape the destiny of the kingdom in this epic RPG.", varieties: [{ name: "Standard Edition", price: "₹3,799", paymentLink: "#" }, { name: "Deluxe Edition", price: "₹5,299", paymentLink: "#" }] },
+             { id: 6, name: "MusicBeat Pro", category: "subscriptions", isFeatured: false, image: "https://placehold.co/500x500/1e293b/db2777?text=MusicBeat", shortDescription: "Ad-free music streaming.", longDescription: "Enjoy millions of songs ad-free. Listen offline and get access to exclusive podcasts and curated playlists. Your personal soundtrack awaits.", varieties: [{ name: "Monthly Plan", price: "₹99/mo", paymentLink: "#" }, { name: "Annual Plan", price: "₹999/yr", paymentLink: "#" }] },
+             { id: 7, name: "File Compressor Pro", category: "utilities", isFeatured: false, image: "https://placehold.co/500x500/1e293b/65a30d?text=Compressor", shortDescription: "Reduce file size without quality loss.", longDescription: "Quickly and easily compress files to save space and speed up sharing. Supports all major formats and includes powerful encryption options for security.", varieties: [{ name: "Standard", price: "₹2,249", paymentLink: "#" }] },
+        ];
+
+        // --- DOM Elements ---
+        const authContainer = document.getElementById('auth-container');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const productList = document.getElementById('product-list');
+        const featuredProductList = document.getElementById('featured-product-list');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilters = document.getElementById('category-filters');
+        const noResultsMessage = document.getElementById('no-results');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Product Modal Elements
+        const productModal = document.getElementById('product-modal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContainer = document.getElementById('modal-container');
+        const modalCloseButton = document.getElementById('modal-close-button');
+        const modalProductVarieties = document.getElementById('modal-product-varieties');
+
+        // Auth Modal Elements
+        const authModal = document.getElementById('auth-modal');
+        const authModalOverlay = document.getElementById('auth-modal-overlay');
+        const authModalContainer = document.getElementById('auth-modal-container');
+        const authModalCloseButton = document.getElementById('auth-modal-close-button');
+        const loginFormContainer = document.getElementById('login-form-container');
+        const signupFormContainer = document.getElementById('signup-form-container');
+        const showSignupButton = document.getElementById('show-signup-button');
+        const showLoginButton = document.getElementById('show-login-button');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const authMessage = document.getElementById('auth-message');
+
+        // --- UI UPDATE FUNCTIONS ---
+        function showToast(message, isError = false) {
+            toastMessage.textContent = message;
+            toast.className = toast.className.replace(/bg-(green|red)-500/, isError ? 'bg-red-500' : 'bg-green-500');
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 3000);
+        }
+
+        function updateNavUI() {
+            const loggedOutHTML = `<button id="login-button" class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-500 transition duration-300 shadow-md shadow-indigo-600/30">Login</button>`;
+            const mobileLoggedOutHTML = `<a href="#" id="mobile-login-button" class="block mt-2 bg-indigo-600 text-white text-center px-5 py-2 rounded-lg hover:bg-indigo-500 transition duration-300 shadow">Login</a>`;
+            
+            if (currentUser) {
+                const loggedInHTML = `
+                    <div class="relative">
+                        <button id="profile-button" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-indigo-400 font-bold text-lg">
+                            ${currentUser.email.charAt(0).toUpperCase()}
+                        </button>
+                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-1 border border-slate-700">
+                            <p class="px-4 py-2 text-sm text-slate-400 truncate">${currentUser.email}</p>
+                            <a href="#" id="logout-button" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">Logout</a>
+                        </div>
+                    </div>
+                `;
+                const mobileLoggedInHTML = `<a href="#" id="mobile-logout-button" class="block mt-2 text-center px-5 py-2 rounded-lg bg-red-600 text-white">Logout</a>`;
+
+                authContainer.innerHTML = loggedInHTML;
+                mobileMenu.innerHTML = `
+                    <a href="#home" class="block py-2 text-slate-300 hover:text-indigo-400">Home</a>
+                    <a href="#products" class="block py-2 text-slate-300 hover:text-indigo-400">Featured</a>
+                    <a href="#all-products" class="block py-2 text-slate-300 hover:text-indigo-400">All Products</a>
+                    ${mobileLoggedInHTML}
+                `;
+            } else {
+                authContainer.innerHTML = loggedOutHTML;
+                mobileMenu.innerHTML = `
+                    <a href="#home" class="block py-2 text-slate-300 hover:text-indigo-400">Home</a>
+                    <a href="#products" class="block py-2 text-slate-300 hover:text-indigo-400">Featured</a>
+                    <a href="#all-products" class="block py-2 text-slate-300 hover:text-indigo-400">All Products</a>
+                    ${mobileLoggedOutHTML}
+                `;
+            }
+        }
+
+        // --- AUTHENTICATION LOGIC ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    currentUser = { uid: user.uid, email: user.email, ...userDocSnap.data() };
+                } else {
+                    console.error("No user profile found in Firestore for logged in user.");
+                    currentUser = { uid: user.uid, email: user.email, isApproved: false, isAdmin: false };
+                }
+            } else {
+                currentUser = null;
+            }
+            updateNavUI();
+        });
+
+        // --- RENDER PRODUCTS ---
+        function renderProducts(productsToRender) {
+            productList.innerHTML = '';
+            featuredProductList.innerHTML = '';
+            noResultsMessage.classList.toggle('hidden', productsToRender.length > 0);
+            productsToRender.forEach(product => {
+                const priceDisplay = product.varieties[0].price;
+                const productCardHTML = `<div class="all-product-card bg-slate-800/50 rounded-lg shadow-md overflow-hidden product-card transition duration-300 border border-slate-700" data-id="${product.id}"><img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover"><div class="p-6"><h3 class="product-title text-xl font-bold text-white truncate">${product.name}</h3><p class="text-slate-400 mt-2 mb-4 text-sm h-10">${product.shortDescription}</p><div class="text-2xl font-bold text-white">${priceDisplay}</div><button class="view-details-btn mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-500 transition">View Details</button></div></div>`;
+                productList.insertAdjacentHTML('beforeend', productCardHTML);
+                if (product.isFeatured) {
+                    const featuredCardHTML = `<div class="bg-slate-800 rounded-xl shadow-lg overflow-hidden product-card border border-slate-700" data-id="${product.id}"><div class="p-8"><div class="flex items-center mb-4"><img src="${product.image}" alt="${product.name}" class="w-16 h-16 rounded-full mr-4 border-2 border-slate-700 object-cover"><h3 class="text-2xl font-bold text-white">${product.name}</h3></div><p class="text-slate-400 mb-6">${product.shortDescription}</p><div class="text-3xl font-bold text-white mb-6">${priceDisplay}</div><button class="view-details-btn w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-500 transition">Buy Now</button></div></div>`;
+                    featuredProductList.insertAdjacentHTML('beforeend', featuredCardHTML);
+                }
+            });
+        }
+        
+        // --- MODAL & FILTERING LOGIC ---
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === parseInt(productId));
+            if (!product) return;
+            document.getElementById('modal-product-image').src = product.image;
+            document.getElementById('modal-product-title').textContent = product.name;
+            document.getElementById('modal-product-description').textContent = product.longDescription;
+            
+            modalProductVarieties.innerHTML = ''; // Clear old content
+            
+            if (currentUser && currentUser.isApproved) {
+                // User is logged in and approved, show buy buttons
+                product.varieties.forEach(variety => {
+                    const varietyHTML = `
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-700/50 border border-slate-700">
+                            <div>
+                                <span class="font-semibold text-white">${variety.name}</span>
+                                <span class="block text-sm text-slate-400">${variety.price}</span>
+                            </div>
+                            <a href="${variety.paymentLink}" target="_blank" class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-500 transition text-sm">Buy Now</a>
+                        </div>
+                    `;
+                    modalProductVarieties.insertAdjacentHTML('beforeend', varietyHTML);
+                });
+            } else if (currentUser && !currentUser.isApproved) {
+                // User is logged in but not approved
+                modalProductVarieties.innerHTML = `<div class="p-4 text-center bg-amber-900/50 border border-amber-700 rounded-lg text-amber-300">Your account is pending admin approval. Purchase options will be available soon.</div>`;
+            } else {
+                // User is not logged in
+                modalProductVarieties.innerHTML = `<div class="p-4 text-center bg-slate-700/50 border border-slate-700 rounded-lg">
+                    <p class="text-slate-300 mb-3">Please log in to view purchase options.</p>
+                    <button id="modal-login-prompt-btn" class="bg-indigo-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-500 transition">Login</button>
+                </div>`;
+            }
+
+            productModal.classList.remove('hidden');
+            setTimeout(() => {
+                modalOverlay.classList.remove('opacity-0');
+                modalContainer.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        }
+
+        function closeProductModal() {
+            modalOverlay.classList.add('opacity-0');
+            modalContainer.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => productModal.classList.add('hidden'), 300);
+        }
+        
+        function openAuthModal() {
+            authModal.classList.remove('hidden');
+            setTimeout(() => {
+                authModalOverlay.classList.remove('opacity-0');
+                authModalContainer.classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        }
+
+        function closeAuthModal() {
+            authModalOverlay.classList.add('opacity-0');
+            authModalContainer.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => authModal.classList.add('hidden'), 300);
+        }
+
+        let activeCategory = 'all';
+        let searchTerm = '';
+        function applyFilters() {
+            const filteredProducts = products.filter(p => (activeCategory === 'all' || activeCategory === p.category) && p.name.toLowerCase().includes(searchTerm));
+            renderProducts(filteredProducts);
+        }
+        applyFilters();
+
+        // --- EVENT LISTENERS ---
+        searchInput.addEventListener('input', (e) => { searchTerm = e.target.value.toLowerCase(); applyFilters(); });
+        categoryFilters.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') { categoryFilters.querySelector('.active').classList.remove('active'); e.target.classList.add('active'); activeCategory = e.target.dataset.category; applyFilters(); } });
+        document.body.addEventListener('click', e => { 
+            if (e.target.classList.contains('view-details-btn')) { 
+                const card = e.target.closest('[data-id]'); 
+                if (card) openProductModal(card.dataset.id); 
+            }
+            if (e.target.id === 'modal-login-prompt-btn') {
+                closeProductModal();
+                openAuthModal();
+            }
+        });
+        modalCloseButton.addEventListener('click', closeProductModal);
+        modalOverlay.addEventListener('click', closeProductModal);
+        document.getElementById('mobile-menu-button').addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        // Auth Modal Listeners
+        authModalCloseButton.addEventListener('click', closeAuthModal);
+        authModalOverlay.addEventListener('click', closeAuthModal);
+        showSignupButton.addEventListener('click', () => { loginFormContainer.classList.add('hidden'); signupFormContainer.classList.remove('hidden'); authMessage.textContent = ''; });
+        showLoginButton.addEventListener('click', () => { signupFormContainer.classList.add('hidden'); loginFormContainer.classList.remove('hidden'); authMessage.textContent = ''; });
+        
+        // Dynamic Auth Button Listeners
+        document.body.addEventListener('click', async e => {
+            if (e.target.id === 'login-button' || e.target.id === 'mobile-login-button') openAuthModal();
+            if (e.target.id === 'logout-button' || e.target.id === 'mobile-logout-button') {
+                try {
+                    await signOut(auth);
+                    showToast("You have been logged out.");
+                } catch (error) {
+                    showToast("Error logging out.", true);
+                }
+            }
+            if (e.target.id === 'profile-button') {
+                document.getElementById('profile-dropdown').classList.toggle('hidden');
+            }
+        });
+
+        // Form Submissions
+        loginForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            authMessage.textContent = '';
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                closeAuthModal();
+                showToast("Login successful!");
+            } catch (error) {
+                authMessage.textContent = "Error: " + error.message.replace('Firebase: ', '');
+            }
+        });
+
+        signupForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            authMessage.textContent = '';
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCredential.user.uid), {
+                    email: email,
+                    isApproved: false,
+                    isAdmin: false,
+                    createdAt: new Date()
+                });
+                closeAuthModal();
+                showToast("Account created! It is now pending admin approval.");
+                await signOut(auth);
+            } catch (error) {
+                authMessage.textContent = "Error: " + error.message.replace('Firebase: ', '');
+            }
+        });
+
+    </script>
+</body>
+</html>
